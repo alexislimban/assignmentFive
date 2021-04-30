@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+const static size_t BLOCK_SIZE = 1024;
+
+FILE* emu_disk_open(char *path, size_t nblocks);
+
+size_t emu_disk_size(FILE* diskfile);
+
+void emu_disk_read(FILE* diskfile, int blocknum, char *data);
+
+void emu_disk_write(FILE* diskfile, int blocknum, char *data);
+
+void emu_disk_close(FILE* diskfile);
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "disk.h"
+
+FILE* emu_disk;
+
+int main(int argc, char *argv[]) {
+size_t blocks;
+char* buffer = malloc(BLOCK_SIZE);
+
+if ( argc == 3 ) {
+emu_disk = emu_disk_open( argv[1], atoi( argv[2] ) );
+blocks = emu_disk_size(emu_disk);
+strcpy(buffer, "Hello, disk!\0");
+emu_disk_write(emu_disk, 0, buffer);
+emu_disk_write(emu_disk, blocks - 1, buffer);
+}
+else {
+perror("Need 2 args");
+}
+emu_disk_close(emu_disk);
+exit(0);
+
