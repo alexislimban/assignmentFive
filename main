@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "disk.h"
+
+FILE* emu_disk;
 
 /* Creates the structure for the nodes*/
 struct INode {
@@ -10,11 +13,6 @@ struct INode {
     unsigned int direct_blockref[5];
     //unsigned int indirect_blockref;
 }
-
-
-#include "disk.h"
-
-FILE* emu_disk;
 
 int main(int argc, char *argv[]) {
 size_t blocks;
@@ -32,4 +30,5 @@ perror("Need 2 args");
 }
 emu_disk_close(emu_disk);
 exit(0);
+}
 
